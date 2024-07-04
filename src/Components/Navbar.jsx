@@ -21,6 +21,10 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
+const addBank = () => {
+  
+}
+
 function Navbar() {
   return (
     <Disclosure as="nav" className="bg-gray-800">
@@ -65,7 +69,7 @@ function Navbar() {
                         {item.name}
                       </a>
                     ))} */}
-                    <button className="text-white">
+                    <button className="text-white" onClick={addBank}>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"

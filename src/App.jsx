@@ -1,4 +1,5 @@
 import "./App.css";
+import FormSession from "./Components/FormSession";
 import Navbar from "./Components/Navbar";
 
 
@@ -7,10 +8,7 @@ function App() {
   return (
       <div className="main">
         <Navbar />
-        <form action="">
-          <input type="file" name="" id="" />
-        </form>
-     
+        <FormSession/>
       </div>
     );
 }
