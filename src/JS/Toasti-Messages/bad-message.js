@@ -1,6 +1,6 @@
 import { Bounce, toast } from "react-toastify";
 
-const toastiSuccess = (message = "Pasó algo mal") => {
+const toastiError = (message = "Pasó algo mal") => {
   return toast.error(message, {
     position: "bottom-left",
     autoClose: 5000,
@@ -13,4 +13,4 @@ const toastiSuccess = (message = "Pasó algo mal") => {
     transition: Bounce,
   });
 };
-export default toastiSuccess;
+export default toastiError;

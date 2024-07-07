@@ -3,32 +3,60 @@ import { useState } from "react";
 import { Form } from "react-bootstrap";
 import PopoverTrigger from "./PopoverTrigger";
 import { useActivePasswordStore } from "../JS/database/store/zustand";
+import emailAutentication from "../JS/Firesbase/Login/email-autentication";
+import {
+  createUserPassAndEmail,
+  emailAndPassword,
+} from "../JS/Firesbase/Login/email-and-password";
 
 function FormSession() {
   const [send, setSend] = useState(false);
-  //const [activePassword, setActivePassword] = useState();
-  const passwordStore = useActivePasswordStore((state) => state.password);
+  const [form, setForm] = useState(false);
+  const passwordStore = useActivePasswordStore((state) => state.passwordStore);
   const changeStatePassword = useActivePasswordStore(
     (state) => state.changeStatePassword
   );
 
   //Active the emailAccount
-  const emailAccount = (formEmail) => {
-    const email = formEmail.get("email");
-    const password = formEmail.get("password");
-    password !== "";
+  const emailAccount = (event) => {
+    event.preventDefault();
+
+    //recibo el click del formulario
+    const target = event.target;
+    //recopilo los datos del formulario
+    const formData = new FormData(target);
+    //recibo los nombres de los atributos de cada boton para condicionar las acciones
+    const buttonClicked = event.nativeEvent.submitter.getAttribute("name");
+
+    buttonClicked === "create-account"
+      ? createAccount(formData)
+      : loginAccount(formData);
+  };
+
+  const createAccount = (formData) => {
+    const email = formData.get("email");
+    const password = formData.get("password");
+    password !== ""
+      ? emailAutentication(email)
+      : createUserPassAndEmail(email, password);
+
+    setSend(true);
+  };
+  const loginAccount = (formData) => {
+    const email = formData.get("email");
+    const password = formData.get("password");
+    password !== ""
+      ? emailAutentication(email)
+      : emailAndPassword(email, password);
+
     setSend(true);
   };
 
-  //Activar o desactivar el metodo con contraseña *****
-  /* const switchPassword = () => {
-
-  }; */
-
   return (
     <Container>
+      <p>{form === false ? "Primero" : "Segundo"}</p>
       {!send && (
-        <Form action={emailAccount}>
+        <Form onSubmit={emailAccount}>
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Row>
               <Col md={"auto"} xs="auto">
@@ -74,7 +102,7 @@ function FormSession() {
                     <Form.Label>Password</Form.Label>
                     <Form.Control
                       type="password"
-                      placeholder="Password"
+                      placeholder="*******"
                       name="password"
                       required
                     />
@@ -83,8 +111,11 @@ function FormSession() {
               </Col>
             </Row>
           </Form.Group>
-          <Button variant="primary" type="submit">
-            Submit
+          <Button variant="primary" type="submit" className="mr-3" name="login">
+            Iniciar Sesion
+          </Button>
+          <Button type="submit" variant="info" name="create-account">
+            Crear cuenta
           </Button>
         </Form>
       )}

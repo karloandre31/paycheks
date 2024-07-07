@@ -16,15 +16,16 @@ export const useBankStore = create((set) => ({
   },
 }));
 
-export const useActivePasswordStore = create(() => {
+export const useActivePasswordStore = create(
   persist(
     (set) => ({
-      password: false,
-      changeStatePassword: () => set((state) => ({ password: !state.password })),
+      passwordStore: false,
+      changeStatePassword: () =>
+        set((state) => ({ passwordStore: !state.passwordStore })),
     }),
     {
-      name: 'password-storage', // name of the item in the storage (must be unique)
+      name: "password-storage", // name of the item in the storage (must be unique)
       storage: createJSONStorage(() => localStorage), // (optional) by default, 'localStorage' is used
     }
   )
-});
+);
