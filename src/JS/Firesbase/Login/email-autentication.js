@@ -1,11 +1,12 @@
-import { sendSignInLinkToEmail, signInWithEmailLink } from "firebase/auth";
+import { isSignInWithEmailLink, sendSignInLinkToEmail, signInWithEmailLink } from "firebase/auth";
 import { auth } from "../firebase";
 import toastiSuccess from "../../Toasti-Messages/success-message";
 import toastiError from "../../Toasti-Messages/bad-message";
 
+
 export const emailAutentication = (email) => {
   const actionCodeSettings = {
-    url: "localhost/finishSignUp?email=" + window.encodeURIComponent(email), // Asegúrate de que este URL esté autorizado
+    url: `http://localhost:5173`, // Asegúrate de que este URL esté autorizado
     handleCodeInApp: true,
     iOS: {
       bundleId: "com.example.ios",
@@ -13,12 +14,12 @@ export const emailAutentication = (email) => {
     android: {
       packageName: "com.example.android",
       installApp: true,
-      minimumVersion: "12",
+      minimumVersion: "12"
     },
     dynamicLinkDomain: "example.page.link",
     //Si utilizo 👆 necesito leer la docu en Firebase
   };
-
+  console.log(actionCodeSettings);
   sendSignInLinkToEmail(auth, email, actionCodeSettings)
     .then(() => {
       // El enlace de inicio de sesión ha sido enviado.
@@ -27,19 +28,21 @@ export const emailAutentication = (email) => {
       window.localStorage.setItem("emailForSignIn", email);
     })
     .catch((error) => {
-      toastiError(`Error al enviar el enlace de autenticación:${error}`);
+      toastiError(`Error al enviar el enlace de autenticación 😵‍💫${error}`);
+      console.log(error, error.message);
     });
 
-  if (auth.isSignInWithEmailLink(window.location.href)) {
+  if (isSignInWithEmailLink(auth, window.location.href)) {
+
     signInWithEmailLink(auth, email, window.location.href)
       .then((result) => {
         // El usuario ha sido autenticado.
-        console.log("Usuario autenticado:", result.user);
+        toastiSuccess("Usuario autenticado:", result.user);
         // Limpia el almacenamiento local
         window.localStorage.removeItem("emailForSignIn");
       })
       .catch((error) => {
-        console.error("Error al completar el registro:", error);
+        toastiError("Error al completar el registro:", error);
       });
   }
 };

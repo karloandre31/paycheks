@@ -29,3 +29,53 @@ export const useActivePasswordStore = create(
     }
   )
 );
+export const useLinksToBankStore = create()
+
+/* export const useUserInformation = create(
+  persist(
+    (set) => ({
+      user: [],
+      addUser: (newUser) => {
+        set((state) => {
+          const userExist = state.some((user) => user.id === newUser.id);
+          if (!userExist) {
+            return {
+              user: [
+                ...{
+                  userID: state.id,
+                  userName: "Desconocido",
+                  userPhoto: "",
+                  userEmail: state.email,
+                },
+              ],
+            };
+          }
+        });
+      },
+      update: (updateUser) => {
+        set((state) => {
+          const userID = state.some((user) => user.id === updateUser.id);
+          if (userID) {
+            return {
+              user: [
+                ...{
+                  userID,
+                  userName: state.userName,
+                  userPhoto: state.userPhoto,
+                  userEmail: state.userEmailx,
+                },
+              ],
+            };
+          }
+        });
+      },
+      users: () => {
+        
+      }
+    }),
+    {
+      name: "user-state-storage", // name of the item in the storage (must be unique)
+      storage: createJSONStorage(() => localStorage), // (optional) by default, 'localStorage' is used
+    }
+  )
+); */

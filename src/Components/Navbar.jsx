@@ -9,7 +9,7 @@ import {
 } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
-
+import SignOut from "./SignOut";
 const navigation = [
   { name: "Bolivariano", href: "Bolivariano", current: true },
   { name: "Team", href: "#", current: false },
@@ -21,11 +21,8 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-const addBank = () => {
-  
-}
 
-function Navbar() {
+function NavbarNavigation() {
   return (
     <Disclosure as="nav" className="bg-gray-800">
       {({ open }) => (
@@ -46,11 +43,22 @@ function Navbar() {
               </div>
               <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                 <div className="flex flex-shrink-0 items-center">
-                  <img
-                    className="h-8 w-auto"
-                    src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-                    alt="Your Company"
-                  />
+                  <Link to="/MainPage" >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="size-8"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
+                      />
+                    </svg>
+                  </Link>
                 </div>
                 <div className="hidden sm:ml-6 sm:block">
                   <div className="flex space-x-4">
@@ -62,31 +70,18 @@ function Navbar() {
                           item.current
                             ? "bg-gray-900 text-white"
                             : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                          "rounded-md px-3 py-2 text-sm font-medium"
-                        )}
-                        aria-current={item.current ? "page" : undefined}
-                      >
-                        {item.name}
-                      </a>
-                    ))} */}
-                    <button className="text-white" onClick={addBank}>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={1.5}
-                        stroke="currentColor"
-                        className="size-6"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-                        />
-                      </svg>
-                    </button>
-                    <Link to={"Bolivariano"}>Bolivariano</Link>
-                    <Link to={"Pichincha"}>Pichincha</Link>
+                            "rounded-md px-3 py-2 text-sm font-medium"
+                            )}
+                            aria-current={item.current ? "page" : undefined}
+                            >
+                            {item.name}
+                            </a>
+                            ))} */}
+                    <div className="banks">
+                      
+                      <Link to="/Bolivariano" className="no-underline">Bolivariano</Link>
+                      <Link to="/Pichincha" className="no-underline">Pichincha</Link>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -145,15 +140,7 @@ function Navbar() {
                     </MenuItem>
                     <MenuItem>
                       {({ focus }) => (
-                        <a
-                          href="#"
-                          className={classNames(
-                            focus ? "bg-gray-100" : "",
-                            "block px-4 py-2 text-sm text-gray-700"
-                          )}
-                        >
-                          Sign out
-                        </a>
+                        <SignOut focus={focus} classNames={classNames} />
                       )}
                     </MenuItem>
                   </MenuItems>
@@ -188,4 +175,4 @@ function Navbar() {
   );
 }
 
-export default Navbar;
+export default NavbarNavigation;
