@@ -1,20 +1,8 @@
 import { create } from "zustand";
-import { createJSONStorage, persist } from "zustand/middleware";
-
-export const useBankStore = create((set) => ({
-  banks: [],
-  addBank: (newBank) => {
-    set((state) => {
-      // Comprobamos si el banco  ya está en el array
-      const bankExists = state.some((bank) => bank.title === newBank.title);
-      if (!bankExists) {
-        return { bank: [...state.bank, newBank] };
-      } else {
-        return state;
-      }
-    });
-  },
-}));
+import { createJSONStorage, devtools, persist } from "zustand/middleware";
+import { getDocumentsFromFirebase } from "../../Firesbase/CRUD/get-check-and-bank";
+import toastiError from "../../Toasti-Messages/bad-message";
+import { addNewBank } from "../../Firesbase/CRUD/create-check-and-bank";
 
 export const useActivePasswordStore = create(
   persist(
@@ -29,7 +17,49 @@ export const useActivePasswordStore = create(
     }
   )
 );
-export const useLinksToBankStore = create()
+
+export const useBankStore = create(
+  process.env.NODE_ENV !== "production"
+    ? devtools((set, get) => ({
+        banks: [],
+        banksLocaleStorage: [],
+        setBanks: async (bankName) => {
+          const { banks } = get();
+          const previousBanks = [...banks];
+          const updateBank = [...banks, {bank: bankName}];
+          set({ banks: updateBank, banksLocaleStorage: updateBank });
+
+          try {
+            await addNewBank(bankName);
+          } catch (error) {
+            set({ banks: previousBanks, banksLocaleStorage: previousBanks });
+          }
+        },
+
+        fetchBanksFromAPI: async () => {
+          try {
+            const fetchedBanks = await getDocumentsFromFirebase("banks");
+            set({ banks: fetchedBanks });
+          } catch (error) {
+            toastiError("Error fetching banks:", error);
+          }
+        },
+        //actualizar los bancos de forma local
+      }))
+    : (set) => ({
+        banks: [],
+        setBanks: (banks) => set({ banks }),
+
+        fetchBanksFromAPI: async () => {
+          try {
+            const fetchedBanks = await getDocumentsFromFirebase("banks");
+            set({ banks: fetchedBanks });
+          } catch (error) {
+            toastiError("Error fetching banks:", error);
+          }
+        },
+      })
+);
 
 /* export const useUserInformation = create(
   persist(

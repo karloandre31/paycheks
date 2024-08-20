@@ -10,6 +10,7 @@ import {
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 import SignOut from "./SignOut";
+import CreateLinksToBanks from "./CreateLinksToBanks";
 const navigation = [
   { name: "Bolivariano", href: "Bolivariano", current: true },
   { name: "Team", href: "#", current: false },
@@ -78,9 +79,7 @@ function NavbarNavigation() {
                             </a>
                             ))} */}
                     <div className="banks">
-                      
-                      <Link to="/Bolivariano" className="no-underline">Bolivariano</Link>
-                      <Link to="/Pichincha" className="no-underline">Pichincha</Link>
+                      <CreateLinksToBanks/>
                     </div>
                   </div>
                 </div>

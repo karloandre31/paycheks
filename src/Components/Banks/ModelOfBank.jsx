@@ -1,7 +1,11 @@
+import { useParams } from "react-router";
 import FormCreateBank from "../FormCreateBank";
 import FormForChecks from "./FormForChecks";
 
-function ModelOfBank() {
+function ModelOfBank({bankName}) {
+  const {bank} = useParams();
+  console.log(bank);
+  
   return (
     <div className="container">
     <FormForChecks/>

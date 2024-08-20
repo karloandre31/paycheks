@@ -3,21 +3,21 @@ import FormSession from "./Components/FormSession";
 import "react-toastify/dist/ReactToastify.css";
 import MainPage from "./Components/MainPage";
 import { Route, Routes } from "react-router";
-import Bolivariano from "./Components/Banks/Bolivariano";
-import Pichincha from "./Components/Banks/Pichincha";
 import Settings from "./Components/Settings";
 import ModelOfBank from "./Components/Banks/ModelOfBank";
+import CreateLinksToBanks from "./Components/CreateLinksToBanks";
+import Ableton from "./Components/Pruebas/Ableton";
 
 function App() {
- 
+  
   return (
     <Routes>
       <Route path="/" element={<FormSession />} />
-      <Route path="/Bolivariano" element={<Bolivariano />} />
-      <Route path="/Pichincha" element={<Pichincha />} />
+      <Route path="/CreateLinksToBank" element={<CreateLinksToBanks />} />
       <Route path="/MainPage" element={<MainPage />} />
       <Route path="/Settings" element={<Settings />} />
-      <Route path="/ModelOfBank" element={<ModelOfBank />} />
+      <Route path="/:bank" element={<ModelOfBank />} />
+      <Route path="/Ableton" element={<Ableton />} />
     </Routes>
   );
 }

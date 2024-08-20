@@ -3,7 +3,7 @@ import { auth, db } from "../firebase";
 import toastiError from "../../Toasti-Messages/bad-message";
 import toastiSuccess from "../../Toasti-Messages/success-message";
 import { onAuthStateChanged } from "firebase/auth";
-import { getBank } from "./get-check-and-bank";
+import { getDocumentsFromFirebase } from "./get-check-and-bank";
 
 // Add a new document with a generated id.
 let autenticUser = null;
@@ -19,7 +19,7 @@ export async function addNewBank(newBank) {
   }
 
   try {
-    const existingBanks = await getBank();
+    const existingBanks = await getDocumentsFromFirebase("banks");
 
     // Verificar si el banco ya existe
     const bankExists = existingBanks.some(({ bank }) => bank === newBank);
@@ -34,7 +34,6 @@ export async function addNewBank(newBank) {
       bank: newBank,
       userId: autenticUser.uid,
     });
-
     toastiSuccess(`${newBank} agregado exitosamente`);
   } catch (error) {
     toastiError(`Oh no, hubo un error 🤕: ${error.message}`);

@@ -1,7 +1,8 @@
 import { Button, Form } from "react-bootstrap";
-import { addNewBank } from "../JS/Firesbase/CRUD/create-check-and-bank";
+import { useBankStore } from "../JS/database/store/zustand";
 
 function FormCreateBank() {
+  const {setBanks} = useBankStore();
   const formCreateBank = (event) => {
     event.preventDefault();
 
@@ -12,14 +13,14 @@ function FormCreateBank() {
     //recibo los nombres de los atributos de cada boton para condicionar las acciones
     const buttonClicked = event.nativeEvent.submitter.getAttribute("name");
     const bankName = formData.get("bank");
-    addNewBank(bankName)
+    setBanks(bankName);
   };
   return (
     <div>
       <Form onSubmit={formCreateBank}>
         <Form.Group className="mb-3" controlId="formBasicForBank">
           <Form.Label>Banco:</Form.Label>
-          <Form.Control type="text" placeholder="Pichincha" name="bank" />
+          <Form.Control type="text" placeholder="Pichincha" name="bank" required/>
         </Form.Group>
 
         <Button variant="primary" type="submit">
